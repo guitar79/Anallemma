@@ -1,6 +1,7 @@
 public void ch1_on() {
   if (connectedSerial) {
-      serial.write('q');  println("type 'q'");  status_text("Ch1 on");   delay(30); 
+      serial.write('q');  println("type 'q'");  status_text("Ch1 on");   delay(20); 
+      serial.write('q');  println("type 'q'");  status_text("Ch1 on");   delay(20);
       twitter_send("The Camera is turned on for captuering anallemma!! This is a tweet sent from SRCROOF_R03!! ");
   }
 if (isPressedCh1Button == false) {
@@ -14,12 +15,27 @@ public void ch1_off() {
   createModalDialog("Are you sure to turn Anallemma Camera Power off?");
   if (messageBoxResult >= 1) return;
   if (connectedSerial) {
-    serial.write('a'); println("type 'a'"); status_text("Ch1 off"); delay(30);
+    serial.write('a'); println("type 'a'"); status_text("Ch1 off"); delay(20);
+    serial.write('a'); println("type 'a'"); status_text("Ch1 off"); delay(20);
+    twitter_send("The Camera is turned off!! This is a tweet sent from SRCROOF_R03!! ");
   }
   if (isPressedCh1Button == true) {
   isPressedCh1Button = !isPressedCh1Button;
   ((Toggle)cp5.getController("on1/off1")).setState(false);
   messageBoxResult = -1;
+  }
+}
+
+
+public void ch1_off_off() {
+  if (connectedSerial) {
+    serial.write('a'); println("type 'a'"); status_text("Ch1 off"); delay(20);
+    serial.write('a'); println("type 'a'"); status_text("Ch1 off"); delay(20);
+    twitter_send("The Camera is turned off automatically!! This is a tweet sent from SRCROOF_R03!! ");
+  }
+  if (isPressedCh1Button == true) {
+  isPressedCh1Button = !isPressedCh1Button;
+  ((Toggle)cp5.getController("on1/off1")).setState(false);
   }
 }
 

@@ -344,20 +344,14 @@ void beattime(int ho, int mi, int se) {
   if (connectedSerial) {
     if (previous_ss != se) {
       if (ROpen_ho==ho && ROpen_mi==mi && ROpen_se==se && isPressedCh6Button == true ) {
-        ch1_on(); 
-        delay(30);//Camera Power On
-        ch6_on_on(); 
-        delay(30);//open
-        //      ch1_on(); delay(30);//Camera Power On
-        //      ch6_on_on(); delay(30);//open
+        ch6_on_on(); delay(10);//Roof open
+        ch1_on(); delay(10);//Camera Power On
       }
       if (RClose_ho==ho && RClose_mi==mi && RClose_se==se && isPressedCh7Button == true) {
-        ch7_on_on(); 
-        delay(30);  //close
-        res6_off(); 
-        delay(30); //
-        //      ch7_on_on(); delay(30);  //close
-        //      res6_off(); delay(30); //
+        ch7_on_on(); delay(10);  //close
+        res6_off(); delay(10); //
+        ch1_off_off(); delay(10);//Camera Power Off
+        
       }
       if (se==0 || se==15 || se==30 || se==45) {
         //if(previous_ss != ss){
