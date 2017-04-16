@@ -49,13 +49,6 @@ int selectedBaudrate = -1; // Used to indicate which baudrate has been selected
 String[] baudrates = {
   "1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200" // these are the supported baudrates by a module
 };
-/*
-DropdownList ROpen_ho;
- int selectedOH = -1; // Used to indicate which baudrate has been selected
- String[] OH = {
- "00", "01", "02", "03", "04", "05" // Open Hour
- };
- */
 
 boolean connectedSerial;
 boolean aborted;
@@ -268,45 +261,6 @@ void createModalDialog(String message) {
 }
 
 
-/*
-public void auto_on() {
- int hh = hour();
- int mm= minute();
- int ss = second();
- 
- int mms=millis();
- if (isPressedautoButton && connectedSerial && start_hh==hh && start_mm==mm && start_ss==ss )  
- {
- ch6_on();
- }
- if(isPressedautoButton && connectedSerial && start_hh==hh-3 && start_mm == mm && start_ss == ss )  
- {
- ch7_on();
- }
- if (isPressedautoButton && connectedSerial && (ss%15==0))
- {
- One_shot();
- } else if (!isPressedautoButton && connectedSerial) {
- 
- }
- isPressedautoButton = !isPressedautoButton;
- ((Toggle)cp5.getController("auto")).setState(true);
- messageBoxResult = -1;
- }
- 
- public void auto_off() {
- createModalDialog("auto off");
- if (messageBoxResult >= 1)
- return;
- if (isPressedautoButton && connectedSerial) {
- } else if (!isPressedautoButton && connectedSerial) {
- }
- isPressedautoButton = !isPressedautoButton;
- ((Toggle)cp5.getController("task")).setState(false);
- messageBoxResult = -1;
- }
- */
-
 int previous_ss;
 
 void draw() {
@@ -336,22 +290,26 @@ void beattime(int ho, int mi, int se) {
   textSize(13);
   text("Set    " + ROpen_ho  + " : " + ROpen_mi  + " : " + ROpen_se, 295, ch_button_y0+ch_button_h*0+45);
   text("Set    " + RClose_ho + " : " + RClose_mi + " : " + RClose_se, 295, ch_button_y0+ch_button_h*1+40);
- 
+
   Date d = new Date();
   long timestamp = d.getTime();
   String Now_datetime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(timestamp);
-  
+
   if (connectedSerial) {
     if (previous_ss != se) {
       if (ROpen_ho==ho && ROpen_mi==mi && ROpen_se==se && isPressedCh6Button == true ) {
-        ch6_on_on(); delay(10);//Roof open
-        ch1_on(); delay(10);//Camera Power On
+        ch6_on_on(); 
+        delay(10);//Roof open
+        ch1_on(); 
+        delay(10);//Camera Power On
       }
       if (RClose_ho==ho && RClose_mi==mi && RClose_se==se && isPressedCh7Button == true) {
-        ch7_on_on(); delay(10);  //close
-        res6_off(); delay(10); //
-        ch1_off_off(); delay(10);//Camera Power Off
-        
+        ch7_on_on(); 
+        delay(10);  //close
+        res6_off(); 
+        delay(10); //
+        ch1_off_off(); 
+        delay(10);//Camera Power Off
       }
       if (se==0 || se==15 || se==30 || se==45) {
         //if(previous_ss != ss){
@@ -374,23 +332,20 @@ void beattime(int ho, int mi, int se) {
   previous_ss = se;
 }
 
-
 void twitter_send(String twitter_masaage) {
-  
-try
-    {
-      Date twitter_d = new Date();
-      long twitter_timestamp = twitter_d.getTime();
-      String twitter_datetime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(twitter_timestamp);
-      //String  twitter_masaage_time = twitter_masaage + year() + month() + day() + hour() + minute() + second();
-      String  twitter_masaage_time = twitter_masaage + twitter_datetime ;
-      Status status = twitter.updateStatus(twitter_masaage_time);
-      //Status status = twitter.updateStatus(twitter_masaage);
-      System.out.println("Status updated to [" + status.getText() + "]." );
-    }
-    catch (TwitterException te)
-    {
-      System.out.println("Error: "+ te.getMessage());
-    }
-    
+  try
+  {
+    Date twitter_d = new Date();
+    long twitter_timestamp = twitter_d.getTime();
+    String twitter_datetime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(twitter_timestamp);
+    //String  twitter_masaage_time = twitter_masaage + year() + month() + day() + hour() + minute() + second();
+    String  twitter_masaage_time = twitter_masaage + twitter_datetime ;
+    Status status = twitter.updateStatus(twitter_masaage_time);
+    //Status status = twitter.updateStatus(twitter_masaage);
+    System.out.println("Status updated to [" + status.getText() + "]." );
+  }
+  catch (TwitterException te)
+  {
+    System.out.println("Error: "+ te.getMessage());
+  }
 }
